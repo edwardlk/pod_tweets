@@ -1,19 +1,20 @@
 import os
 
-import pickle
+# import pickle
 from joblib import dump, load
 import matplotlib.pyplot as plt
-import pandas as pd
-import scipy.sparse as ss
+# import pandas as pd
+# import scipy.sparse as ss
 import numpy as np
-from sklearn.decomposition import TruncatedSVD, PCA
-from sklearn.preprocessing import normalize
-from sklearn.base import BaseEstimator
-from sklearn.utils import check_array
-from sklearn.cluster import DBSCAN, KMeans
-from sklearn.manifold import TSNE
-from os.path import isfile
-import subprocess
+# from sklearn.decomposition import TruncatedSVD, PCA
+# from sklearn.preprocessing import normalize
+# from sklearn.base import BaseEstimator
+# from sklearn.utils import check_array
+from sklearn.cluster import KMeans
+# from sklearn.cluster import DBSCAN
+# from sklearn.manifold import TSNE
+# from os.path import isfile
+# import subprocess
 import streamlit as st
 
 
