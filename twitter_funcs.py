@@ -1,24 +1,43 @@
 import tweepy
 import time
 
-#Twitter API credentials
+# Twitter API credentials
 from auth import (
     api_key,
-    api_secret_key,
-    access_token,
-    access_token_secret)
+    api_secret_key,)
 
 # Auths
-auth = tweepy.OAuthHandler(api_key, api_secret_key)
-auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth)
+auth = tweepy.AppAuthHandler(api_key, api_secret_key)
+api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+
+
+def search_for_pod(search_txt, num_results):
+    '''
+    '''
+    user_search = api.search_users((search_txt), count=num_results)
+    search_results = []
+    x = 1
+    for user in user_search:
+        search_results.append([search_txt, x, user.screen_name, user.id,
+                               user.followers_count,
+                               user.description.encode('utf-8')])
+        x += 1
+    return search_results
 
 
 def get_all_followers(screen_name):
+    '''
+    '''
     followers_list = []
-    for page in tweepy.Cursor(api.followers_ids, screen_name=screen_name).pages():
+    print('Finding {} followers.'.format(screen_name), end='')
+    for page in tweepy.Cursor(api.followers_ids, screen_name=screen_name,
+                              monitor_rate_limit=True, wait_on_rate_limit=True,
+                              wait_on_rate_limit_notify=True,
+                              retry_count=5, retry_delay=5).pages(4):
         followers_list.extend(page)
-        time.sleep(5)
+        print('.', end='')
+        time.sleep(0.7)
+    print('.Done')
     return followers_list
 
 
