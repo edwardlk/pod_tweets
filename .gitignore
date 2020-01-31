@@ -1,6 +1,7 @@
 # Untracked files
 auth.py
 *.csv
+follower_twts/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
