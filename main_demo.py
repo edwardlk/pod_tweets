@@ -31,8 +31,8 @@ cluster_pick = st.sidebar.selectbox(
     'How many clusters?',
     [2, 3, 4, 5, 6])
 
-data_dir = '/home/ed/github/pod_tweets/follower_ids/'
-resources_dir = '/home/ed/github/pod_tweets/resources/'
+data_dir = '/pod_tweets/follower_ids/'
+resources_dir = '/pod_tweets/resources/'
 # pod_list = os.listdir(data_dir)
 # num_pods = len(pod_list)
 
