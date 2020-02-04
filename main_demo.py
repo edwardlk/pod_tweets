@@ -3,7 +3,7 @@ import os
 # import pickle
 from joblib import dump, load
 import matplotlib.pyplot as plt
-# import pandas as pd
+import pandas as pd
 # import scipy.sparse as ss
 import numpy as np
 # from sklearn.decomposition import TruncatedSVD, PCA
@@ -27,9 +27,104 @@ def calc_common_usrs(data_dir, pod1, pod2):
     return len(num_same), len(pod_list1), len(pod_list2)
 
 
-cluster_pick = st.sidebar.selectbox(
-    'How many clusters?',
-    [2, 3, 4, 5, 6])
+pod_pop_arr = ['60Minutes.csv', '48Hours.csv', '1A.csv', '99Invisible.csv',
+               'BehindtheBastards.csv', '83WeekswithEricBischoff.csv',
+               'AccidentalTechPodcast.csv', 'Radiolab.csv', 'SmallTownMurder.csv',
+                'GirlonGuywithAishaTyler.csv', 'HelloFromTheMagicTavern.csv',
+                'YouMustRememberThis.csv', 'RoosterTeethPodcast.csv',
+                'WelcometoNightVale.csv', 'SPONTANEANATIONwithPaulFTompkins.csv',
+                'GettingCuriouswithJonathanVanNess.csv', 'TheWeeklyPlanet.csv',
+                'TheBrilliantIdiots.csv', 'OnBeingwithKristaTippett.csv',
+                'SawbonesAMaritalTourofMisguidedMedicine.csv',
+                'AtlantaMonster.csv', 'StraightUpwithStassi.csv',
+                'PardonMyTake.csv', 'GuysWeFd.csv', 'TheRachelMaddowShow.csv',
+                'TheJoeBuddenPodcastwithRoryMal.csv', 'TheHistoryofRome.csv',
+                'TheAdventureZone.csv', 'RevisionistHistory.csv', 'TheRead.csv',
+                'HowIBuiltThiswithGuyRaz.csv',
+                'SomethingtoWrestlewithBrucePrichard.csv', 'IntheDark.csv',
+                'AceOnTheHouse.csv', 'PennsSundaySchool.csv', 'ArtofWrestling.csv',
+                'StarTalkRadio.csv', 'YourMomsHousewithChristinaPandTomSegura.csv',
+                'HeresTheThingwithAlecBaldwin.csv', 'TheAdamandDrDrewShow.csv',
+                'STown.csv', 'MyDadWroteAPorno.csv', 'TheEzraKleinShow.csv',
+                'Majority54.csv', 'MissingMurderedFindingCleo.csv',
+                'TEDRadioHour.csv', 'WorkLifewithAdamGrant.csv', 'LadyGang.csv',
+                'IAMRAPAPORTSTEREOPODCAST.csv', 'TheAndrewKlavanShow.csv',
+                'JockoPodcast.csv', 'NotTooDeepwithGraceHelbig.csv',
+                'AlisonRosenIsYourNewBestFriend.csv',
+                'BitchSeshARealHousewivesBreakdown.csv', 'LouderWithCrowder.csv',
+                'Homecoming.csv', 'SavageLovecast.csv', 'TheRichRollPodcast.csv',
+                'AndThatsWhyWeDrink.csv', 'RealCrimeProfile.csv',
+                '30For30Podcasts.csv', 'ArmchairExpertwithDaxShepard.csv',
+                'TheRossBolenPodcast.csv', 'OprahsSuperSoulConversations.csv',
+                'ReplyAll.csv', 'GiantBombcast.csv', 'Bertcastspodcast.csv',
+                'TheSteveAustinShow.csv', 'PodSaveAmerica.csv',
+                'TheHerdwithColinCowherd.csv', 'Caliphate.csv',
+                'TheDanPatrickShowonPodcastOne.csv', 'TerribleThanksForAsking.csv',
+                'TheFighterTheKid.csv', 'DuncanTrussellFamilyHour.csv',
+                'Invisibilia.csv', 'TheTaiLopezShow.csv',
+                'JuicyScoopwithHeatherMcDonald.csv', '2DopeQueens.csv',
+                'HappierwithGretchenRubin.csv', 'TimesuckwithDanCummins.csv',
+                'TheRussilloShow.csv', 'WithFriendsLikeThese.csv',
+                'TheJoeRoganExperience.csv', 'Lore.csv', 'JalenJacoby.csv',
+                'TheDaily.csv', 'StillProcessing.csv', 'PoliticalGabfest.csv',
+                'LeVarBurtonReads.csv', 'AdamCarollaShow.csv',
+                'MyFavoriteMurderwithKarenKilgariffandGeorgiaHardstark.csv',
+                'JudgeJohnHodgman.csv', 'ThisAmericanLife.csv',
+                'SpittinChiclets.csv', 'YouMadeItWeirdwithPeteHolmes.csv',
+                'TenMinutePodcast.csv', 'Trumpcast.csv', 'TigerBelly.csv',
+                'RadiolabPresentsMorePerfect.csv',
+                'TheChaleneShowDietFitnessLifeBalance.csv',
+                'TheBillSimmonsPodcast.csv', 'CriticalRole.csv', 'CLUBLIFE.csv',
+                'MysteryShow.csv', 'OffTheVinewithKaitlynBristowe.csv',
+                'JennaJulienPodcast.csv', 'TheMinimalistsPodcast.csv',
+                'TheGaryVeeAudioExperience.csv', 'TheGlennBeckProgram.csv',
+                'MSNBCRachelMaddowvideo.csv', 'TheWestWingWeekly.csv',
+                'TheDavePortnoyShow.csv', 'TheJordanBPetersonPodcast.csv',
+                'TheBenandAshleyIAlmostFamousPodcast.csv', 'Heavyweight.csv',
+                'Undisclosed.csv', 'AnnaFarisIsUnqualified.csv',
+                'FiveThirtyEightPolitics.csv', 'FreshAir.csv', 'ThrowingShade.csv',
+                'LastPodcastOnTheLeft.csv', 'ID10TwithChrisHardwick.csv',
+                'OntheMedia.csv', 'BingeModeHarryPotter.csv',
+                'MyBrotherMyBrotherAndMe.csv', 'TheAxeFileswithDavidAxelrod.csv',
+                'UpandVanished.csv', 'CommonSensewithDanCarlin.csv',
+                'CongratulationswithChrisDElia.csv', 'ThePatMcAfeeShow.csv',
+                'TheTimFerrissShow.csv', 'ForePlay.csv', 'ShaneAndFriends.csv',
+                'TheBenShapiroShow.csv', 'DeathSexMoney.csv',
+                'TheSkinnyConfidentialHimHerPodcast.csv',
+                'DanCarlinsHardcoreHistory.csv', 'PodSavethePeople.csv',
+                'Revolutions.csv', 'HowDidThisGetMade.csv', 'TalkIsJericho.csv',
+                'TheDollopwithDaveAnthonyandGarethReynolds.csv',
+                'TruthJusticewithBobRuff.csv', 'TheVanishedPodcast.csv',
+                'thememorypalace.csv', 'CrimeJunkie.csv',
+                'PopCultureHappyHour.csv', 'SnapJudgment.csv', 'SwordandScale.csv',
+                'WatchWhatCrappens.csv', 'AstonishingLegends.csv', 'UpFirst.csv',
+                'TheHappyHourwithJamieIvey.csv', 'AliceIsntDead.csv',
+                'Strangers.csv', 'TANIS.csv', 'StartUpPodcast.csv',
+                'TheArtofManliness.csv', 'TheNoSleepPodcast.csv', 'DearSugars.csv',
+                'StuffYouShouldKnow.csv', 'InterceptedwithJeremyScahill.csv',
+                '1YearDailyAudioBible.csv', 'RISETogetherPodcast.csv',
+                'EarHustle.csv', 'SeincastASeinfeldPodcast.csv',
+                'PodcastsTheMikeOMearaShow.csv',
+                'StuffYouMissedinHistoryClass.csv', 'SomeoneKnowsSomething.csv',
+                'PlanetMoney.csv', 'Embedded.csv', 'KnowledgeFight.csv',
+                'HiddenBrain.csv', 'TheSkepticsGuidetotheUniverse.csv',
+                'DirtyJohn.csv', 'RoughTranslation.csv',
+                'AmericanHistoryTellers.csv', 'Accused.csv',
+                'TheLongestShortestTime.csv', 'DISGRACELAND.csv',
+                'TheUnderdog.csv', 'TheMoth.csv', 'YoungHouseLoveHasAPodcast.csv',
+                'Cults.csv', 'IfIWereYou.csv', 'MentalIllnessHappyHour.csv']
+
+pod_usr = 'pod1'
+pod_compare = 'pod2'
+pod_compare_list = ['pod1', 'pod2', 'pod3']
+pod_usr = st.sidebar.selectbox(
+    'your podcast?',
+    ['pod1', 'pod2', 'pod3'])
+
+pod_compare_list.remove(pod_usr)
+pod_compare = st.sidebar.selectbox(
+    'comparison podcast?',
+    pod_compare_list)
 
 data_dir = './follower_ids/'
 resources_dir = './resources/'
@@ -67,6 +162,7 @@ resources_dir = './resources/'
 data_dump = resources_dir + '20193101_data.joblib'
 reduced_data = load(data_dump)
 
+cluster_pick = 3
 kmeans = KMeans(init='k-means++', n_clusters=cluster_pick, n_init=10)
 kmeans.fit(reduced_data)
 
@@ -107,4 +203,87 @@ plt.ylim(y_min, y_max)
 plt.xticks(())
 plt.yticks(())
 # plt.show()
-st.pyplot()
+# st.pyplot()
+
+pod_space_df = pd.DataFrame(reduced_data, columns=('x', 'y'))
+pod_space_df['pod_name'] = pod_pop_arr[:31]
+
+import hdbscan
+
+clusterer = hdbscan.HDBSCAN(min_samples=5, metric='manhattan',
+                            min_cluster_size=20).fit(reduced_data)
+cluster_ids = clusterer.labels_
+print('num clusters = {}'.format(clusterer.labels_.max()+1))
+
+pod_space_df['cluster'] = cluster_ids
+
+hbds_dump = resources_dir + '20190402_hdbscan_data.joblib'
+pod_space_df = load(hbds_dump)
+
+
+from bokeh.plotting import figure, show, output_notebook, output_file
+from bokeh.models import HoverTool, ColumnDataSource, CustomJS, value
+from bokeh.models.mappers import LinearColorMapper
+from bokeh.palettes import plasma
+from collections import OrderedDict
+
+output_notebook()
+
+# Construct a color palette and map clusters to colors
+# palette = ['#777777'] + plasma(cluster_ids.max())
+# colormap = LinearColorMapper(palette=palette, low=-1, high=cluster_ids.max())
+# color_dict = {'field': 'cluster', 'transform': colormap}
+
+# Set fill alpha globally
+pod_space_df['fill_alpha'] = np.exp((reduced_data.min() -
+                                     reduced_data.max()) / 5.0) + 0.05
+
+# Build a column data source
+plot_data = ColumnDataSource(pod_space_df)
+
+# Custom callback for alpha adjustment
+jscode="""
+    var data = source.data;
+    var start = cb_obj.start;
+    var end = cb_obj.end;
+    alpha = data['fill_alpha']
+    for (i = 0; i < alpha.length; i++) {
+         alpha[i] = Math.exp((start - end) / 5.0) + 0.05;
+    }
+    source.trigger('change');
+"""
+
+# Create the figure and add tools
+bokeh_figure = figure(title='A Map of PodSpace',
+                   plot_width = 700,
+                   plot_height = 700,
+                   tools=('pan, wheel_zoom, box_zoom, box_select, reset'),
+                   active_scroll=u'wheel_zoom')
+
+bokeh_figure.add_tools( HoverTool(tooltips = OrderedDict([('pod_name', '@pod_name'),
+                                                       ('cluster', '@cluster')])))
+
+# draw the subreddits as circles on the plot
+bokeh_figure.circle(u'x', u'y', source=plot_data,
+                 line_color=None, fill_alpha='fill_alpha',
+                 size=10, hover_line_color=u'black')
+
+# bokeh_figure.x_range.callback = CustomJS(args=dict(source=plot_data), code=jscode)
+# bokeh_figure.y_range.callback = CustomJS(args=dict(source=plot_data), code=jscode)
+
+# configure visual elements of the plot
+bokeh_figure.title.text_font_size = value('18pt')
+bokeh_figure.title.align = 'center'
+bokeh_figure.xaxis.visible = False
+bokeh_figure.yaxis.visible = False
+bokeh_figure.grid.grid_line_color = None
+bokeh_figure.outline_line_color = '#222222'
+
+st.write(bokeh_figure)
+
+pod_topic_df = pd.DataFrame(
+    {'pod1': ['topic1', 'topic2', 'topic3'],
+     'pod2': ['topic2', 'topic4', 'topic1'],
+     'pod3': ['topic1', 'topic4', 'topic5']})
+
+pod_topic_df[[pod_usr, pod_compare]]
