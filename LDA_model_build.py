@@ -118,23 +118,30 @@ resources_dir = './resources/'
 categories = os.listdir(data_dir)
 print(categories)
 
-print('Loading dataset...', end='')
-docs_to_train = sklearn.datasets.load_files(
-    data_dir, description=None, categories=categories, load_content=True,
-    encoding='utf-8', shuffle=True, random_state=42)
-print('Done')
-tweet_txt = docs_to_train['data']
+have_file_dump = True
+file_dump_name = '202002051521_tweet_p_list.joblib'
 
-print('Splitting tweets...', end='')
-reformat = lambda x: tweet_split_2_process(x)
-tweet_txt_p = list(map(reformat, tweet_txt))
-tweet_p_list = []
-for sublist in tweet_txt_p:
-    tweet_p_list.extend(sublist)
-print('Done')
+if not have_file_dump:
+    print('Loading dataset...', end='')
+    docs_to_train = sklearn.datasets.load_files(
+        data_dir, description=None, categories=categories, load_content=True,
+        encoding='utf-8', shuffle=True, random_state=42)
+    print('Done')
+    tweet_txt = docs_to_train['data']
 
-dump1 = (resources_dir + '{}_tweet_p_list.joblib'.format(datetime.now().strftime("%Y%m%d%H%M")))
-dump(tweet_p_list, dump1)
+    print('Splitting tweets...', end='')
+    reformat = lambda x: tweet_split_2_process(x)
+    tweet_txt_p = list(map(reformat, tweet_txt))
+    tweet_p_list = []
+    for sublist in tweet_txt_p:
+        tweet_p_list.extend(sublist)
+    print('Done')
+
+    dump1 = (resources_dir + '{}_tweet_p_list.joblib'.format(datetime.now().strftime("%Y%m%d%H%M")))
+    dump(tweet_p_list, dump1)
+else:
+    load_file = resources_dir + file_dump_name
+    tweet_p_list = load(load_file)
 
 print('Extracting tf features for LDA...', end='')
 tf_vectorizer = CountVectorizer(
