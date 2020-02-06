@@ -114,20 +114,26 @@ pod_pop_arr = ['60Minutes.csv', '48Hours.csv', '1A.csv', '99Invisible.csv',
                 'TheUnderdog.csv', 'TheMoth.csv', 'YoungHouseLoveHasAPodcast.csv',
                 'Cults.csv', 'IfIWereYou.csv', 'MentalIllnessHappyHour.csv']
 
-pod_usr = 'pod1'
-pod_compare = 'pod2'
-pod_compare_list = ['pod1', 'pod2', 'pod3']
-pod_usr = st.sidebar.selectbox(
-    'your podcast?',
-    ['pod1', 'pod2', 'pod3'])
-
-pod_compare_list.remove(pod_usr)
-pod_compare = st.sidebar.selectbox(
-    'comparison podcast?',
-    pod_compare_list)
-
 data_dir = './follower_ids/'
 resources_dir = './resources/'
+
+rank_matrix = pd.read_pickle(resources_dir + 'rank_matrix.pkl')
+
+pod_list = rank_matrix.columns
+
+pod_usr = pod_list[0]
+pod_compare = pod_list[1]
+pod_usr = st.sidebar.selectbox(
+    'your podcast?',
+    pod_list)
+
+# pod_list.remove(pod_usr)
+pod_compare = st.sidebar.selectbox(
+    'comparison podcast?',
+    pod_list)
+
+rank_matrix[[pod_usr, pod_compare]]
+
 # pod_list = os.listdir(data_dir)
 # num_pods = len(pod_list)
 
@@ -280,10 +286,3 @@ bokeh_figure.grid.grid_line_color = None
 bokeh_figure.outline_line_color = '#222222'
 
 st.write(bokeh_figure)
-
-pod_topic_df = pd.DataFrame(
-    {'pod1': ['topic1', 'topic2', 'topic3'],
-     'pod2': ['topic2', 'topic4', 'topic1'],
-     'pod3': ['topic1', 'topic4', 'topic5']})
-
-pod_topic_df[[pod_usr, pod_compare]]
