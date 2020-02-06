@@ -122,17 +122,28 @@ rank_matrix = pd.read_pickle(resources_dir + 'rank_matrix.pkl')
 pod_list = rank_matrix.columns
 
 pod_usr = pod_list[0]
-pod_compare = pod_list[1]
+# pod_compare = pod_list[1]
 pod_usr = st.sidebar.selectbox(
     'your podcast?',
     pod_list)
 
 # pod_list.remove(pod_usr)
-pod_compare = st.sidebar.selectbox(
-    'comparison podcast?',
+# pod_compare = st.sidebar.selectbox(
+#     'comparison podcast?',
+#     pod_list)
+
+options = st.sidebar.multiselect(
+    'What are your favorite colors',
     pod_list)
 
-rank_matrix[[pod_usr, pod_compare]]
+pod_look = [pod_usr]
+pod_look.extend(options)
+
+output_txt = 'For your podcast, {}, we recommend...'.format(pod_usr)
+
+rank_matrix[pod_look]
+
+st.write(output_txt)
 
 # pod_list = os.listdir(data_dir)
 # num_pods = len(pod_list)
