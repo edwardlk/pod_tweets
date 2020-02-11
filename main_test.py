@@ -7,51 +7,7 @@ import pandas as pd
 from twitter_funcs import(get_x_tweets, get_all_followers, search_for_pod)
 
 
-full_pod_list = ['BingeModeHarryPotter.csv',
-                    'BitchSeshARealHousewivesBreakdown.csv',
-                    'Caliphate.csv',
-                    'CLUBLIFE.csv',
-                    'CommonSensewithDanCarlin.csv',
-                    'CongratulationswithChrisDElia.csv',
-                    'CrimeJunkie.csv',
-                    'CriticalRole.csv',
-                    'Cults.csv',
-                    'DanCarlinsHardcoreHistory.csv',
-                    'DearSugars.csv',
-                    'DeathSexMoney.csv',
-                    'DirtyJohn.csv',
-                    'DISGRACELAND.csv',
-                    'DuncanTrussellFamilyHour.csv',
-                    'EarHustle.csv',
-                    'Embedded.csv',
-                    'FiveThirtyEightPolitics.csv',
-                    'ForePlay.csv',
-                    'FreshAir.csv',
-                    'GettingCuriouswithJonathanVanNess.csv',
-                    'GiantBombcast.csv',
-                    'GirlonGuywithAishaTyler.csv',
-                    'GuysWeFd.csv',
-                    'HappierwithGretchenRubin.csv',
-                    'Heavyweight.csv',
-                    'HelloFromTheMagicTavern.csv',
-                    'HeresTheThingwithAlecBaldwin.csv',
-                    'HiddenBrain.csv',
-                    'Homecoming.csv',
-                    'HowDidThisGetMade.csv',
-                    'HowIBuiltThiswithGuyRaz.csv',
-                    'IAMRAPAPORTSTEREOPODCAST.csv',
-                    'ID10TwithChrisHardwick.csv',
-                    'IfIWereYou.csv',
-                    'InterceptedwithJeremyScahill.csv',
-                    'IntheDark.csv',
-                    'Invisibilia.csv',
-                    'JalenJacoby.csv',
-                    'JennaJulienPodcast.csv',
-                    'JockoPodcast.csv',
-                    'JudgeJohnHodgman.csv',
-                    'JuicyScoopwithHeatherMcDonald.csv',
-                    'LadyGang.csv',
-                    'LastPodcastOnTheLeft.csv',
+full_pod_list = ['LastPodcastOnTheLeft.csv',
                     'LeVarBurtonReads.csv',
                     'Lore.csv',
                     'LouderWithCrowder.csv',
@@ -227,11 +183,11 @@ for pdcst in full_pod_list:
             print("Failed to run the command on that user, Skipping...")
         temp_df.at[x, 'tweets'] = user_tweet_list
 
-        if x % 10 == 0:
+        if x % 50 == 0:
             print('{} users done'.format(x))
         if x % 100 == 0:
             temp_df.to_csv(follow_twts, index=False)
-        time.sleep(0.700)
+        time.sleep(0.620)
 
     temp_df.to_csv(follow_twts, index=False)
 
