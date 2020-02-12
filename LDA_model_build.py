@@ -130,6 +130,8 @@ if not have_file_dump:
     print('Done')
     tweet_txt = docs_to_train['data']
 
+    categories_list = docs_to_train.target_names
+
     print('Splitting tweets...', end='')
     reformat = lambda x: tweet_split_2_process(x)
     tweet_txt_p = list(map(reformat, tweet_txt))
@@ -143,8 +145,32 @@ if not have_file_dump:
     dump(tweet_p_list, dump1)
     print('Done')
 else:
+    print('Loading formatted tweets...', end='')
+    categories_list = (
+        ['1A', '1YearDailyAudioBible', '2DopeQueens',
+         '30For30Podcasts', '48Hours', '60Minutes', '83WeekswithEricBischoff',
+         '99Invisible', 'AccidentalTechPodcast', 'Accused', 'AceOnTheHouse',
+         'AdamCarollaShow', 'AliceIsntDead', 'AlisonRosenIsYourNewBestFriend',
+         'AmericanHistoryTellers', 'AndThatsWhyWeDrink', 'AnnaFarisIsUnqualified',
+         'ArmchairExpertwithDaxShepard', 'ArtofWrestling', 'AstonishingLegends',
+         'AtlantaMonster', 'BehindtheBastards', 'Bertcastspodcast',
+         'BingeModeHarryPotter', 'BitchSeshARealHousewivesBreakdown',
+         'CLUBLIFE', 'Caliphate', 'CommonSensewithDanCarlin',
+         'CongratulationswithChrisDElia', 'CrimeJunkie', 'CriticalRole', 'Cults',
+         'DISGRACELAND', 'DanCarlinsHardcoreHistory', 'DearSugars', 'DeathSexMoney',
+         'DirtyJohn', 'DuncanTrussellFamilyHour', 'EarHustle', 'Embedded',
+         'FiveThirtyEightPolitics', 'ForePlay', 'FreshAir', 'GettingCuriouswithJonathanVanNess',
+         'GiantBombcast', 'GirlonGuywithAishaTyler', 'GuysWeFd', 'HappierwithGretchenRubin',
+         'Heavyweight', 'HelloFromTheMagicTavern', 'HeresTheThingwithAlecBaldwin',
+         'HiddenBrain', 'Homecoming', 'HowDidThisGetMade', 'HowIBuiltThiswithGuyRaz',
+         'IAMRAPAPORTSTEREOPODCAST', 'ID10TwithChrisHardwick', 'IfIWereYou',
+         'InterceptedwithJeremyScahill', 'IntheDark', 'Invisibilia', 'JalenJacoby',
+         'JennaJulienPodcast', 'JockoPodcast', 'JudgeJohnHodgman', 'JuicyScoopwithHeatherMcDonald',
+         'KnowledgeFight', 'LadyGang', 'PlanetMoney', 'PodSaveAmerica', 'SeincastASeinfeldPodcast'])
+
     load_file = resources_dir + file_dump_name
     tweet_p_list = load(load_file)
+    print('Done')
 
 print('Extracting tf features for LDA...', end='')
 tf_vectorizer = CountVectorizer(
@@ -191,8 +217,6 @@ print("Model Perplexity: ", best_lda_model.perplexity(tf))
 
 topic_names = ["Topic" + str(i) for i in range(best_lda_model.n_components)]
 topic_matrix = pd.DataFrame(columns=topic_names)
-
-categories_list = docs_to_train.target_names
 
 for x1 in range(len(categories_list)):
     subdocs_to_train = sklearn.datasets.load_files(
