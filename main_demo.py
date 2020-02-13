@@ -117,15 +117,25 @@ pod_pop_arr = ['60Minutes.csv', '48Hours.csv', '1A.csv', '99Invisible.csv',
 data_dir = './follower_ids/'
 resources_dir = './resources/'
 
-rank_matrix = pd.read_pickle(resources_dir + 'rank_matrix.pkl')
+cos_sim_pkl = 'rank_matrix_20200213.pkl'
+topic_csv = 'topics.txt'
+
+cos_sim = pd.read_pickle(resources_dir + cos_sim_pkl)
+rank_matrix = pd.read_pickle(resources_dir + 'rank_matrix_202002121312.pkl')
+topic_txt_df = pd.read_csv(resources_dir + topic_csv, header=None)
 
 pod_list = rank_matrix.columns
+topic_list = topic_txt_df[0].tolist()
 
 pod_usr = pod_list[0]
 # pod_compare = pod_list[1]
 pod_usr = st.sidebar.selectbox(
-    'your podcast?',
+    'Select your podcast',
     pod_list)
+
+sim_list = cos_sim[pod_usr].sort_values(ascending=False).index.tolist()
+
+st.write('The top 3 podcasts with audiences most similar to your own are {}, {}, and {}'.format(sim_list[1], sim_list[2], sim_list[3]))
 
 # pod_list.remove(pod_usr)
 # pod_compare = st.sidebar.selectbox(
@@ -133,17 +143,37 @@ pod_usr = st.sidebar.selectbox(
 #     pod_list)
 
 options = st.sidebar.multiselect(
-    'What are your favorite colors',
-    pod_list)
+    'What podcasts do you want to compare?',
+    sim_list, default=sim_list[1:4])
+
+other_topics = st.sidebar.multiselect(
+    'What other topics do you want to explore?',
+    topic_list)
 
 pod_look = [pod_usr]
 pod_look.extend(options)
 
-output_txt = 'For your podcast, {}, we recommend...'.format(pod_usr)
+rank_matrix[:5][pod_look]
 
-rank_matrix[pod_look]
+usr_topic_0 = rank_matrix.loc[0, pod_usr]
+usr_text_0 = topic_txt_df.loc[int(usr_topic_0[5:]), 1]
+usr_topic_1 = rank_matrix.loc[1, pod_usr]
+usr_text_1 = topic_txt_df.loc[int(usr_topic_1[5:]), 1]
+usr_topic_2 = rank_matrix.loc[2, pod_usr]
+usr_text_2 = topic_txt_df.loc[int(usr_topic_2[5:]), 1]
+
+output_txt = ('The topics your audience are most interested in are: \n\n'
+              + '{}: {} \n\n'.format(usr_topic_0, usr_text_0)
+              + '{}: {} \n\n'.format(usr_topic_1, usr_text_1)
+              + '{}: {}'.format(usr_topic_2, usr_text_2))
+
+# st.write(topic_txt_df)
 
 st.write(output_txt)
+
+if len(other_topics) > 0:
+    for x in other_topics:
+        st.write('{}: {} \n\n'.format(x, topic_txt_df.loc[int(x[5:]), 1]))
 
 # pod_list = os.listdir(data_dir)
 # num_pods = len(pod_list)
@@ -296,4 +326,4 @@ bokeh_figure.yaxis.visible = False
 bokeh_figure.grid.grid_line_color = None
 bokeh_figure.outline_line_color = '#222222'
 
-st.write(bokeh_figure)
+# st.write(bokeh_figure)
