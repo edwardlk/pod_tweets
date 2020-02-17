@@ -49,9 +49,10 @@ vectorizer = TfidfVectorizer(
 model = ct.Corex(
     n_hidden=num_topics,
     verbose=1,
-    max_iter=2,
+    max_iter=50,
     seed=42)
 
+# Pipeline for gridsearch
 # pipeline = Pipeline(
 #     [(), ()]
 # )
@@ -71,3 +72,10 @@ print('Done')
 
 vt.vis_rep(model, column_label=vocab,
            prefix='./corex_models/{}-topic-model'.format(num_topics))
+
+model_tc = model.tc
+
+vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
+corex_print = 'CorEx params: n_t={}, tc={}'.format(num_topics, model_tc)
+
+print(vect_print + ' ' + corex_print)
