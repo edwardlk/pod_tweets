@@ -66,7 +66,7 @@ param_grid = {
     'tfidf__min_df': [10, 30, 100, 300, 1000],
 }
 
-grid_search = GridSearchCV(pipe, param_grid, n_jobs=-1)
+grid_search = GridSearchCV(pipe, param_grid, scoring='tc', n_jobs=-1)
 
 grid_search.fit(all_tweets['text'])
 
