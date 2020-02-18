@@ -2,6 +2,7 @@ import os
 import pandas as pd
 
 from sklearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from corextopic import corextopic as ct
 from corextopic import vis_topic as vt
@@ -49,33 +50,48 @@ vectorizer = TfidfVectorizer(
 model = ct.Corex(
     n_hidden=num_topics,
     verbose=1,
-    max_iter=50,
+    max_iter=2,
     seed=42)
 
 # Pipeline for gridsearch
-# pipeline = Pipeline(
-#     [(), ()]
-# )
+pipe = Pipeline(
+    [('tfidf', vectorizer),
+     ('corex', model)]
+)
 
-print('Vectorizing tweets...', end='')
-vect_fit = vectorizer.fit(all_tweets['text'])
-tfidf = vectorizer.transform(all_tweets['text'])
-vocab = vect_fit.get_feature_names()
-print('Done')
+# pipeline.fit(all_tweets['text'])
 
-print('Fitting CorEx model...')
-anchors = []
-model = model.fit(
-    tfidf,
-    words=vocab)
-print('Done')
+param_grid = {
+    'tfidf__max_df': [0.3, 0.4, 0.5, 0.6, 0.7],
+    'tfidf__min_df': [10, 30, 100, 300, 1000],
+}
 
-vt.vis_rep(model, column_label=vocab,
-           prefix='./corex_models/{}-topic-model'.format(num_topics))
+grid_search = GridSearchCV(pipe, param_grid, n_jobs=-1)
 
-model_tc = model.tc
+grid_search.fit(all_tweets['text'])
 
-vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
-corex_print = 'CorEx params: n_t={}, tc={}'.format(num_topics, model_tc)
+print("Best parameter (CV score=%0.3f):" % grid_search.best_score_)
+print(grid_search.best_params_)
 
-print(vect_print + ' ' + corex_print)
+# print('Vectorizing tweets...', end='')
+# vect_fit = vectorizer.fit(all_tweets['text'])
+# tfidf = vectorizer.transform(all_tweets['text'])
+# vocab = vect_fit.get_feature_names()
+# print('Done')
+#
+# print('Fitting CorEx model...')
+# anchors = []
+# model = model.fit(
+#     tfidf,
+#     words=vocab)
+# print('Done')
+#
+# vt.vis_rep(model, column_label=vocab,
+#            prefix='./corex_models/{}-topic-model'.format(num_topics))
+#
+# model_tc = model.tc
+#
+# vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
+# corex_print = 'CorEx params: n_t={}, tc={}'.format(num_topics, model_tc)
+#
+# print(vect_print + ' ' + corex_print)
