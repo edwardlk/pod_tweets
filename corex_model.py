@@ -124,6 +124,27 @@ model = ct.Corex(
 # print("Best parameter (CV score=%0.3f):" % grid_search.best_score_)
 # print(grid_search.best_params_)
 
+anchors = ['trump',
+           ['win','giveaway'],
+           'vote',
+           ['sanders', 'warren', 'biden', 'democratic', 'buttigieg'],
+           ['kobe', 'bryant'],
+           'book',
+           ['super', 'bowl'],
+           ['climate', 'change'],
+           ['podcast', 'episode'],
+           ['mental', 'health'],
+           'coronavirus',
+           'australia',
+           'jesus',
+           ['sexually', 'assaulted'],
+           ['social', 'justice'],
+           'brexit',
+           ['black', 'history'],
+           ['conspiracy', 'theories'],
+           ['trans', 'people']
+           ]
+
 print('Vectorizing tweets...', end='')
 vect_fit = vectorizer.fit(all_tweets['text'])
 tfidf = vectorizer.transform(all_tweets['text'])
@@ -134,6 +155,7 @@ print('Fitting CorEx model...')
 anchors = []
 model = model.fit(
     tfidf,
+    anchors=anchors,
     words=vocab)
 print('Done')
 
