@@ -149,6 +149,33 @@ top_percent_df = pd.read_csv(resources_dir + 'topic_percent_matrix.csv', index_c
 #     df = df.sort_values(by=[str(df.columns[0])], ascending=False)
 #     rank_matrix[df.columns[0]] = df.index.tolist()
 
+max_width = 1000
+padding_top = 1
+padding_right = 10
+padding_left = 1
+padding_bottom = 1
+# COLOR =
+# BACKGROUND_COLOR =
+    # .reportview-container .main {{
+    #     color: {COLOR};
+    #     background-color: {BACKGROUND_COLOR};
+    # }}
+
+st.markdown(
+        f"""
+<style>
+    .reportview-container .main .block-container{{
+        max-width: {max_width}px;
+        padding-top: {padding_top}rem;
+        padding-right: {padding_right}rem;
+        padding-left: {padding_left}rem;
+        padding-bottom: {padding_bottom}rem;
+    }}
+</style>
+""",
+        unsafe_allow_html=True,
+    )
+
 top_percent_df = top_percent_df.T
 
 pod_list = rank_matrix.columns
@@ -158,15 +185,15 @@ topic_list = rank_matrix['1A'].sort_values().tolist()
 pod_usr = pod_list[0]
 # pod_compare = pod_list[1]
 pod_usr = st.sidebar.selectbox(
-    'Select your podcast',
+    'Select your podcast:',
     pod_list, index=65)
 
 num_compare = st.sidebar.slider(
-    'Select num most similar podcasts to compare:',
+    'Adjust number of most similar podcasts to compare:',
     min_value=1, max_value=10, value=3)
 
 topics_view = st.sidebar.slider(
-    'Select num topics to view:',
+    'Adjust number of leading topics to view:',
     min_value=1, max_value=10, value=5)
 
 sim_list = cos_sim[pod_usr].sort_values(ascending=False).index.tolist()
@@ -174,7 +201,7 @@ sim_list = cos_sim[pod_usr].sort_values(ascending=False).index.tolist()
 st.write('The top 3 podcasts with audiences most similar to your own are {}, {}, and {}'.format(sim_list[1], sim_list[2], sim_list[3]))
 
 options = st.sidebar.multiselect(
-    'What podcasts do you want to compare?',
+    'What other podcasts do you want to compare?',
     sim_list, default=sim_list[1:num_compare+1])
 
 other_topics = st.sidebar.multiselect(
@@ -190,9 +217,13 @@ top_usr_topics = rank_matrix[:topics_view][pod_usr].tolist()
 
 pod_usr_followers = fllw_cnt[pod_usr]
 
-out_str = ('This % of your users also follow these podcasts: \n\n')
+out_str = ('This % of your {:,} followers also follow these podcasts: \n\n'.format(pod_usr_followers))
 for x in pod_look[1:]:
-    temp_str = '\t\t {}: {:.1f}% \n\n'.format(x, 100*return_comm_users(pod_common_users, pod_usr, x)/pod_usr_followers)
+    comm_users_cnt = return_comm_users(pod_common_users, pod_usr, x)
+    temp_str = '\t\t {}: {:.1f}% [{:,} of your followers are among their {:,} followers]\n\n'.format(
+        x,
+        100*comm_users_cnt/pod_usr_followers,
+        comm_users_cnt, fllw_cnt[x])
     out_str = out_str + temp_str
 
 num_com = return_comm_users(pod_common_users, pod_usr, sim_list[1])
