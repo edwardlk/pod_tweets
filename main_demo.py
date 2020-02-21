@@ -27,6 +27,19 @@ def calc_common_usrs(data_dir, pod1, pod2):
     return len(num_same), len(pod_list1), len(pod_list2)
 
 
+def return_comm_users(pod_common_usrs, pod_2, pod_1):
+    df = pod_common_usrs[pod_common_usrs['podcast_1'] == (pod_1 + '.csv')]
+    df = df[df['podcast_2'] == (pod_2 + '.csv')]
+    X = df['comm_users'].tolist()
+
+    if not X:
+        df = pod_common_usrs[pod_common_usrs['podcast_1'] == (str(pod_2) + '.csv')]
+        df = df[df['podcast_2'] == (str(pod_1) + '.csv')]
+        X = df['comm_users'].tolist()
+
+    return X[0]
+
+
 pod_pop_arr = ['60Minutes.csv', '48Hours.csv', '1A.csv', '99Invisible.csv',
                'BehindtheBastards.csv', '83WeekswithEricBischoff.csv',
                'AccidentalTechPodcast.csv', 'Radiolab.csv', 'SmallTownMurder.csv',
@@ -114,37 +127,55 @@ pod_pop_arr = ['60Minutes.csv', '48Hours.csv', '1A.csv', '99Invisible.csv',
                 'TheUnderdog.csv', 'TheMoth.csv', 'YoungHouseLoveHasAPodcast.csv',
                 'Cults.csv', 'IfIWereYou.csv', 'MentalIllnessHappyHour.csv']
 
+fllw_cnt = {'OprahsSuperSoulConversations': 42852066, 'MSNBCRachelMaddowvideo': 9868196, 'TheRachelMaddowShow': 9868196, 'ShaneAndFriends': 9732900, 'TheBillSimmonsPodcast': 5861576, 'TheJoeRoganExperience': 5764309, 'CLUBLIFE': 5019775, 'TheSteveAustinShow': 4634639, 'TalkIsJericho': 3589921, 'TheEzraKleinShow': 2559225, 'TheBenShapiroShow': 2531427, 'TheGaryVeeAudioExperience': 2118223, 'LeVarBurtonReads': 1878729, 'PennsSundaySchool': 1819319, 'JalenJacoby': 1787513, 'ThePatMcAfeeShow': 1733874, 'TheTimFerrissShow': 1642970, 'TheHerdwithColinCowherd': 1473885, 'TheJordanBPetersonPodcast': 1398570, 'NotTooDeepwithGraceHelbig': 1281812, 'TheGlennBeckProgram': 1264010, 'SPONTANEANATIONwithPaulFTompkins': 1249653, 'TheAxeFileswithDavidAxelrod': 1196490, 'TheDavePortnoyShow': 1188861, 'ArmchairExpertwithDaxShepard': 1125492, 'CongratulationswithChrisDElia': 1066960, 'TheJoeBuddenPodcastwithRoryMal': 1045202, 'PodSavethePeople': 1034231, 'LouderWithCrowder': 988334, 'GettingCuriouswithJonathanVanNess': 819646, 'TheFighterTheKid': 779731, 'PardonMyTake': 716940, 'JennaJulienPodcast': 701095, 'TheTaiLopezShow': 698959, 'RevisionistHistory': 637712, 'CriticalRole': 576196, 'Bertcastspodcast': 553802, 'TheAdamandDrDrewShow': 530417, 'AceOnTheHouse': 530417, 'AnnaFarisIsUnqualified': 495297, 'GirlonGuywithAishaTyler': 494297, 'TheRussilloShow': 489211, 'PodSaveAmerica': 480175, 'OffTheVinewithKaitlynBristowe': 456363, 'StraightUpwithStassi': 448565, 'RoosterTeethPodcast': 435846, 'TheDanPatrickShowonPodcastOne': 434861, 'YouMadeItWeirdwithPeteHolmes': 431563, 'MyFavoriteMurderwithKarenKilgariffandGeorgiaHardstark': 425423, 'IAMRAPAPORTSTEREOPODCAST': 417446, '30For30Podcasts': 393754, 'JockoPodcast': 390419, 'Caliphate': 389576, 'PlanetMoney': 360348, 'SavageLovecast': 355360, 'Majority54': 337683, 'MyBrotherMyBrotherAndMe': 316000, 'RadiolabPresentsMorePerfect': 311137, 'WorkLifewithAdamGrant': 294645, 'DuncanTrussellFamilyHour': 285679, 'SpittinChiclets': 283082, 'HeresTheThingwithAlecBaldwin': 279385, 'FreshAir': 278914, 'ThisAmericanLife': 268314, 'JuicyScoopwithHeatherMcDonald': 267024, 'TheAdventureZone': 256404, 'CommonSensewithDanCarlin': 253749, 'DanCarlinsHardcoreHistory': 253749, 'ArtofWrestling': 253535, 'BingeModeHarryPotter': 225267, 'TheBenandAshleyIAlmostFamousPodcast': 224906, 'TheDaily': 212621, 'TheRead': 205695, 'ForePlay': 195582, 'GiantBombcast': 166770, 'TheAndrewKlavanShow': 166093, 'TenMinutePodcast': 163934, 'YourMomsHousewithChristinaPandTomSegura': 159041, 'TheBrilliantIdiots': 150907, 'HappierwithGretchenRubin': 144528, '48Hours': 138381, 'YouMustRememberThis': 125112, 'Trumpcast': 124863, 'HowDidThisGetMade': 122040, 'ID10TwithChrisHardwick': 108028, 'BitchSeshARealHousewivesBreakdown': 107171, 'ReplyAll': 105815, 'TheChaleneShowDietFitnessLifeBalance': 101482, 'Homecoming': 94587, 'LadyGang': 93428, 'TheRichRollPodcast': 90097, 'SawbonesAMaritalTourofMisguidedMedicine': 89505, '2DopeQueens': 84296, 'StillProcessing': 83934, '83WeekswithEricBischoff': 83161, 'SomethingtoWrestlewithBrucePrichard': 83161, 'Undisclosed': 82453, 'AlisonRosenIsYourNewBestFriend': 77924, 'WelcometoNightVale': 76179, 'TEDRadioHour': 67905, 'HowIBuiltThiswithGuyRaz': 67905, 'LastPodcastOnTheLeft': 63048, 'WithFriendsLikeThese': 58849, '1A': 58727, 'TheWestWingWeekly': 58159, '99Invisible': 57109, 'OnBeingwithKristaTippett': 56803, 'Lore': 55815, 'JudgeJohnHodgman': 55443, 'GuysWeFd': 53496, 'PoliticalGabfest': 50825, 'TheMinimalistsPodcast': 50587, 'MysteryShow': 48928, 'TheHistoryofRome': 48706, 'Revolutions': 48705, 'AdamCarollaShow': 43769, 'TheDollopwithDaveAnthonyandGarethReynolds': 43716, 'TheWeeklyPlanet': 42687, 'MyDadWroteAPorno': 41293, 'StarTalkRadio': 39330, '60Minutes': 39038, 'UpandVanished': 38737, 'AtlantaMonster': 38737, 'TheRossBolenPodcast': 38574, 'Invisibilia': 37072, 'ThrowingShade': 36386, 'STown': 34374, 'Heavyweight': 33748, 'MissingMurderedFindingCleo': 33623, 'BehindtheBastards': 31512, 'TerribleThanksForAsking': 31250, 'AndThatsWhyWeDrink': 30190, 'AccidentalTechPodcast': 29116, 'DeathSexMoney': 28170, 'TheSkinnyConfidentialHimHerPodcast': 26791, 'HelloFromTheMagicTavern': 26362, 'Radiolab': 24857, 'OntheMedia': 23828, 'TimesuckwithDanCummins': 23422, 'FiveThirtyEightPolitics': 23065, 'RealCrimeProfile': 22892, 'SmallTownMurder': 22497, 'TigerBelly': 22493, 'IntheDark': 22224, 'TruthJusticewithBobRuff': 19602, 'AliceIsntDead': 18390, 'TheVanishedPodcast': 17962, 'CrimeJunkie': 17523, 'thememorypalace': 17495, 'PopCultureHappyHour': 16624, 'SnapJudgment': 15058, 'SwordandScale': 14858, 'WatchWhatCrappens': 14775, 'AstonishingLegends': 13341, 'UpFirst': 13127, 'TheHappyHourwithJamieIvey': 11437, 'Strangers': 11308, 'TANIS': 10217, 'StartUpPodcast': 10148, 'TheArtofManliness': 9784, 'TheNoSleepPodcast': 9401, 'DearSugars': 8895, 'StuffYouShouldKnow': 7917, 'RISETogetherPodcast': 7311, 'InterceptedwithJeremyScahill': 7093, '1YearDailyAudioBible': 6586, 'EarHustle': 6077, 'SeincastaSeinfeldPodcast': 5752, 'PodcastsTheMikeOMearaShow': 5613, 'StuffYouMissedinHistoryClass': 5227, 'SomeoneKnowsSomething': 5148, 'Embedded': 4536, 'KnowledgeFight': 4334, 'HiddenBrain': 4111, 'TheSkepticsGuidetotheUniverse': 3877, 'DirtyJohn': 3760, 'RoughTranslation': 3760, 'AmericanHistoryTellers': 3513, 'Accused': 3173, 'TheLongestShortestTime': 2503, 'DISGRACELAND': 2028, 'TheUnderdog': 1288, 'TheMoth': 760, 'YoungHouseLoveHasAPodcast': 718, 'Cults': 332, 'IfIWereYou': 266, 'MentalIllnessHappyHour': 4}
+
 data_dir = './follower_ids/'
 resources_dir = './resources/'
 
 cos_sim_pkl = 'rank_matrix_20200213.pkl'
-topic_csv = 'topics.txt'
+topic_csv = 'corex-topics.txt'
 
-cos_sim = pd.read_pickle(resources_dir + cos_sim_pkl)
-rank_matrix = pd.read_pickle(resources_dir + 'rank_matrix_202002121312.pkl')
-topic_txt_df = pd.read_csv(resources_dir + topic_csv, header=None)
+# cos_sim = pd.read_pickle(resources_dir + cos_sim_pkl)
+cos_sim = pd.read_csv(resources_dir + 'cos_sim_df.csv', index_col=0)
+# rank_matrix = pd.read_pickle(resources_dir + 'rank_matrix_202002121312.pkl')
+rank_matrix = pd.read_csv(resources_dir + 'list_of_topics.csv', index_col=0)
+topic_txt_df = pd.read_csv(resources_dir + topic_csv, header=None, delimiter=':')
+pod_common_users = pd.read_csv(resources_dir + 'pod_common_users.csv', index_col=0)
+top_percent_df = pd.read_csv(resources_dir + 'topic_percent_matrix.csv', index_col=0)
+
+# rank_matrix = pd.DataFrame()
+# for x2 in range(len(sim_df)):
+#     df = pd.DataFrame(sim_df.iloc[x2])
+#     df = df.sort_values(by=[str(df.columns[0])], ascending=False)
+#     rank_matrix[df.columns[0]] = df.index.tolist()
+
+top_percent_df = top_percent_df.T
 
 pod_list = rank_matrix.columns
-topic_list = topic_txt_df[0].tolist()
+
+topic_list = rank_matrix['1A'].sort_values().tolist()
 
 pod_usr = pod_list[0]
 # pod_compare = pod_list[1]
 pod_usr = st.sidebar.selectbox(
     'Select your podcast',
-    pod_list)
+    pod_list, index=65)
+
+num_compare = st.sidebar.slider(
+    'Select num most similar podcasts to compare:',
+    min_value=1, max_value=10, value=3)
+
+topics_view = st.sidebar.slider(
+    'Select num topics to view:',
+    min_value=1, max_value=10, value=5)
 
 sim_list = cos_sim[pod_usr].sort_values(ascending=False).index.tolist()
 
 st.write('The top 3 podcasts with audiences most similar to your own are {}, {}, and {}'.format(sim_list[1], sim_list[2], sim_list[3]))
 
-# pod_list.remove(pod_usr)
-# pod_compare = st.sidebar.selectbox(
-#     'comparison podcast?',
-#     pod_list)
-
 options = st.sidebar.multiselect(
     'What podcasts do you want to compare?',
-    sim_list, default=sim_list[1:4])
+    sim_list, default=sim_list[1:num_compare+1])
 
 other_topics = st.sidebar.multiselect(
     'What other topics do you want to explore?',
@@ -153,14 +184,41 @@ other_topics = st.sidebar.multiselect(
 pod_look = [pod_usr]
 pod_look.extend(options)
 
-rank_matrix[:5][pod_look]
+rank_matrix[:topics_view][pod_look]
+
+top_usr_topics = rank_matrix[:topics_view][pod_usr].tolist()
+
+pod_usr_followers = fllw_cnt[pod_usr]
+
+out_str = ('This % of your users also follow these podcasts: \n\n')
+for x in pod_look[1:]:
+    temp_str = '\t\t {}: {:.1f}% \n\n'.format(x, 100*return_comm_users(pod_common_users, pod_usr, x)/pod_usr_followers)
+    out_str = out_str + temp_str
+
+num_com = return_comm_users(pod_common_users, pod_usr, sim_list[1])
+
+comm_usr_str = 'common user % = {}'.format(
+    return_comm_users(pod_common_users, pod_usr, sim_list[1]))
+
+st.write(out_str)
+
+if other_topics != []:
+    top_usr_topics.extend(other_topics)
+
+# if not other_topics:
+#     top_usr_topics = top_usr_topics.append(other_topics)
+
+outdfdf = top_percent_df.loc[top_usr_topics, pod_look].T*100
+st.write('What % of these audiences are talking about these topics:')
+st.dataframe(outdfdf.apply(lambda x: round(x, 1)))
+
 
 usr_topic_0 = rank_matrix.loc[0, pod_usr]
-usr_text_0 = topic_txt_df.loc[int(usr_topic_0[5:]), 1]
+usr_text_0 = topic_txt_df.loc[int(usr_topic_0[6:]), 1]
 usr_topic_1 = rank_matrix.loc[1, pod_usr]
-usr_text_1 = topic_txt_df.loc[int(usr_topic_1[5:]), 1]
+usr_text_1 = topic_txt_df.loc[int(usr_topic_1[6:]), 1]
 usr_topic_2 = rank_matrix.loc[2, pod_usr]
-usr_text_2 = topic_txt_df.loc[int(usr_topic_2[5:]), 1]
+usr_text_2 = topic_txt_df.loc[int(usr_topic_2[6:]), 1]
 
 output_txt = ('The topics your audience are most interested in are: \n\n'
               + '{}: {} \n\n'.format(usr_topic_0, usr_text_0)
@@ -169,11 +227,11 @@ output_txt = ('The topics your audience are most interested in are: \n\n'
 
 # st.write(topic_txt_df)
 
-st.write(output_txt)
-
-if len(other_topics) > 0:
-    for x in other_topics:
-        st.write('{}: {} \n\n'.format(x, topic_txt_df.loc[int(x[5:]), 1]))
+# st.write(output_txt)
+#
+# if len(other_topics) > 0:
+#     for x in other_topics:
+#         st.write('{}: {} \n\n'.format(x, topic_txt_df.loc[int(x[6:]), 1]))
 
 # pod_list = os.listdir(data_dir)
 # num_pods = len(pod_list)
