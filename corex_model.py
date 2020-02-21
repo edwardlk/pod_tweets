@@ -134,6 +134,7 @@ anchors = ['trump',
            ['climate', 'change'],
            ['podcast', 'episode'],
            ['mental', 'health'],
+           ['health', 'care'],
            'coronavirus',
            'australia',
            'jesus',
@@ -142,7 +143,11 @@ anchors = ['trump',
            'brexit',
            ['black', 'history'],
            ['conspiracy', 'theories'],
-           ['trans', 'people']
+           ['trans', 'people'],
+           'song',
+           ['movie', 'film'],
+           'food',
+           'drink'
            ]
 
 print('Vectorizing tweets...', end='')
@@ -156,6 +161,7 @@ anchors = []
 model = model.fit(
     tfidf,
     anchors=anchors,
+    anchor_strength=3,
     words=vocab)
 print('Done')
 
