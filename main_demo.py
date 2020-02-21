@@ -149,17 +149,13 @@ top_percent_df = pd.read_csv(resources_dir + 'topic_percent_matrix.csv', index_c
 #     df = df.sort_values(by=[str(df.columns[0])], ascending=False)
 #     rank_matrix[df.columns[0]] = df.index.tolist()
 
-max_width = 1000
+max_width = 2000
 padding_top = 1
-padding_right = 10
+padding_right = 5
 padding_left = 1
 padding_bottom = 1
-# COLOR =
-# BACKGROUND_COLOR =
-    # .reportview-container .main {{
-    #     color: {COLOR};
-    #     background-color: {BACKGROUND_COLOR};
-    # }}
+BACKGROUND_COLOR = "rgb(80,80,80)"
+COLOR = "#fff"
 
 st.markdown(
         f"""
@@ -170,6 +166,10 @@ st.markdown(
         padding-right: {padding_right}rem;
         padding-left: {padding_left}rem;
         padding-bottom: {padding_bottom}rem;
+    }}
+    .reportview-container .main {{
+        color: {COLOR};
+        background-color: {BACKGROUND_COLOR};
     }}
 </style>
 """,
