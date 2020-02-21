@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 
+from sklearn.metrics import make_scorer
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -9,7 +10,7 @@ from corextopic import vis_topic as vt
 
 
 pickle_dir = './tweet_pickles/'
-num_topics = 20
+num_topics = 100
 num_max_df = 0.5
 num_min_df = 100
 
@@ -69,16 +70,39 @@ def params_search(fit_text, num_max_df, num_min_df, num_topics):
     vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
     corex_print = 'CorEx params: n_t={}, tc={}'.format(num_topics, model_tc)
 
-    print(vect_print + ' ' + corex_print)
+    return vect_print + ' ' + corex_print
 
 
 print('Loading tweets...', end='')
 all_tweets = all_pickles_to_1(pickle_dir)
 print('Done')
 
-for x1 in [0.4, 0.5, 0.6]:
-    params_search(all_tweets['text'], x1, num_min_df, num_topics)
+# for x1 in [0.4, 0.5, 0.6]:
+#     print(params_search(all_tweets['text'], x1, num_min_df, num_topics))
 
+# Model Parameters
+vectorizer = TfidfVectorizer(
+    strip_accents='ascii',
+    encoding='unicode',
+    max_df=num_max_df,
+    min_df=num_min_df,
+    max_features=None,
+    ngram_range=(1, 2),
+    norm=None,
+    binary=True,
+    use_idf=False,
+    sublinear_tf=False)
+
+model = ct.Corex(
+    n_hidden=num_topics,
+    seed=42)
+#
+# vect_fit = vectorizer.fit(all_tweets['text'])
+# tfidf = vectorizer.transform(all_tweets['text'])
+# vocab = vect_fit.get_feature_names()
+#
+# model = model.fit(tfidf, words=vocab)
+#
 # # Pipeline for gridsearch
 # pipe = Pipeline(
 #     [('tfidf', vectorizer),
@@ -92,32 +116,41 @@ for x1 in [0.4, 0.5, 0.6]:
 #     'tfidf__min_df': [10, 30, 100, 300, 1000],
 # }
 #
-# grid_search = GridSearchCV(pipe, param_grid, scoring='tc', n_jobs=-1)
+# my_scorer = make_scorer(model.tc)
+# grid_search = GridSearchCV(pipe, param_grid, scoring=my_scorer, n_jobs=-1)
 #
 # grid_search.fit(all_tweets['text'])
 #
 # print("Best parameter (CV score=%0.3f):" % grid_search.best_score_)
 # print(grid_search.best_params_)
 
-# print('Vectorizing tweets...', end='')
-# vect_fit = vectorizer.fit(all_tweets['text'])
-# tfidf = vectorizer.transform(all_tweets['text'])
-# vocab = vect_fit.get_feature_names()
-# print('Done')
-#
-# print('Fitting CorEx model...')
-# anchors = []
-# model = model.fit(
-#     tfidf,
-#     words=vocab)
-# print('Done')
-#
-# vt.vis_rep(model, column_label=vocab,
-#            prefix='./corex_models/{}-topic-model'.format(num_topics))
-#
-# model_tc = model.tc
-#
-# vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
-# corex_print = 'CorEx params: n_t={}, tc={}'.format(num_topics, model_tc)
-#
-# print(vect_print + ' ' + corex_print)
+print('Vectorizing tweets...', end='')
+vect_fit = vectorizer.fit(all_tweets['text'])
+tfidf = vectorizer.transform(all_tweets['text'])
+vocab = vect_fit.get_feature_names()
+print('Done')
+
+print('Fitting CorEx model...')
+anchors = []
+model = model.fit(
+    tfidf,
+    words=vocab)
+print('Done')
+
+vt.vis_rep(model, column_label=vocab,
+           prefix='./corex_models/{}-topic-model'.format(num_topics))
+
+model_tc = model.tc
+
+vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
+corex_print = 'CorEx params: n_t={}, tc={}'.format(num_topics, model_tc)
+
+print(vect_print + ' ' + corex_print)
+
+topic_df = pd.DataFrame(
+    model.transform(tfidf),
+    columns=["topic_{}".format(i+1) for i in range(num_topics)]).astype(float)
+topic_df.index = all_tweets.index
+all_df = pd.concat([all_tweets, topic_df], axis=1)
+
+all_df.to_csv('all_df.csv')
