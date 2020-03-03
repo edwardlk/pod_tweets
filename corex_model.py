@@ -142,12 +142,8 @@ else:
     vocab = joblib.load('./resources/vocab_dump.joblib')
 
 
-<<<<<<< HEAD
 print('Fitting CorEx model...', end='')
 # anchors = []
-=======
-print('Fitting CorEx model...')
->>>>>>> 31e83c099752a74f39fef52c8cd2d3be13970fcb
 model = model.fit(
     tfidf,
     # anchors=anchors,
@@ -176,66 +172,14 @@ all_df = pd.concat([all_tweets, topic_df], axis=1)
 all_df.to_csv('all_df.csv')
 
 # Train successive layers
-<<<<<<< HEAD
-print('fit 2...')
-tm_layer2 = ct.Corex(n_hidden=10, seed=42)
-tm_layer2.fit(model.labels)
-=======
 print('fit2...')
 tm_layer2 = ct.Corex(n_hidden=10)
 tm_layer2.fit(model.labels)
 joblib.dump(tm_layer2, './resources/tm_layer2_dump.joblib')
->>>>>>> 31e83c099752a74f39fef52c8cd2d3be13970fcb
 
 vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
 corex_print = 'CorEx params: n_t={}, tc={}'.format(10, tm_layer2.tc)
 
-<<<<<<< HEAD
-print(vect_print + ' ' + corex_print)
-
-vt.vis_hierarchy([model, tm_layer2], column_label=vocab,
-                 max_edges=300, prefix='topic-model-example')
-
-print('fit 3...')
-tm_layer3 = ct.Corex(n_hidden=1, seed=42)
-tm_layer3.fit(tm_layer2.labels)
-
-vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
-corex_print = 'CorEx params: n_t={}, tc={}'.format(1, tm_layer3.tc)
-
-print(vect_print + ' ' + corex_print)
-
-vt.vis_hierarchy([model, tm_layer2, tm_layer3], column_label=vocab,
-                 max_edges=300, prefix='topic-model-example2')
-
-#
-# vect_fit = vectorizer.fit(all_tweets['text'])
-# tfidf = vectorizer.transform(all_tweets['text'])
-# vocab = vect_fit.get_feature_names()
-#
-# model = model.fit(tfidf, words=vocab)
-#
-# # Pipeline for gridsearch
-# pipe = Pipeline(
-#     [('tfidf', vectorizer),
-#      ('corex', model)]
-# )
-#
-# # pipeline.fit(all_tweets['text'])
-#
-# param_grid = {
-#     'tfidf__max_df': [0.3, 0.4, 0.5, 0.6, 0.7],
-#     'tfidf__min_df': [10, 30, 100, 300, 1000],
-# }
-#
-# my_scorer = make_scorer(model.tc)
-# grid_search = GridSearchCV(pipe, param_grid, scoring=my_scorer, n_jobs=-1)
-#
-# grid_search.fit(all_tweets['text'])
-#
-# print("Best parameter (CV score=%0.3f):" % grid_search.best_score_)
-# print(grid_search.best_params_)
-=======
 vt.vis_rep(tm_layer2, column_label=vocab,
            prefix='./corex_models/{}-topic-model'.format(10))
 
@@ -248,4 +192,3 @@ corex_print = 'CorEx params: n_t={}, tc={}'.format(num_topics, model_tc)
 
 vt.vis_rep(tm_layer3, column_label=vocab,
            prefix='./corex_models/{}-topic-model'.format(1))
->>>>>>> 31e83c099752a74f39fef52c8cd2d3be13970fcb
