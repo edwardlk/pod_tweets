@@ -53,3 +53,34 @@ def get_x_tweets(user_id, x):
         except AttributeError:  # Not a Retweet
             alltweets.append(tweet.full_text)
     return alltweets
+
+
+def get_pod_tweets(twitter_s_n):
+    ''' Requests latest x tweets of user user_id.
+        Returns List of full tweet text.
+    '''
+    tweet_times = []
+    alltweets = []
+    new_tweets = api.user_timeline(screen_name=twitter_s_n,
+                                   count=200, tweet_mode='extended')
+    for tweet in new_tweets:
+        tweet_times.append(tweet.created_at)  # .strftime('%Y-%m-%d')
+        try:
+            alltweets.append(tweet.retweeted_status.full_text)
+        except AttributeError:  # Not a Retweet
+            alltweets.append(tweet.full_text)
+    return tweet_times, alltweets
+
+
+def get_user_info(screen_name):
+    '''
+    '''
+    user_obj = api.get_user(screen_name)
+
+    user_info = [user_obj.id_str,
+                 user_obj.name,
+                 user_obj.screen_name,
+                 user_obj.description,
+                 user_obj.followers_count,
+                 user_obj.profile_image_url_https]
+    return user_info
