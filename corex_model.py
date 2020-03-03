@@ -1,9 +1,10 @@
 import os
 import pandas as pd
+import joblib
 
-from sklearn.metrics import make_scorer
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import GridSearchCV
+# from sklearn.metrics import make_scorer
+# from sklearn.pipeline import Pipeline
+# from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from corextopic import corextopic as ct
 from corextopic import vis_topic as vt
@@ -11,8 +12,8 @@ from corextopic import vis_topic as vt
 
 pickle_dir = './tweet_pickles/'
 num_topics = 100
-num_max_df = 0.5
-num_min_df = 100
+num_max_df = 0.7
+num_min_df = 10
 
 
 def all_pickles_to_1(pickle_dir):
@@ -92,7 +93,8 @@ vectorizer = TfidfVectorizer(
     norm=None,
     binary=True,
     use_idf=False,
-    sublinear_tf=False)
+    sublinear_tf=False,
+    stop_words='english')
 
 model = ct.Corex(
     n_hidden=num_topics,
@@ -123,21 +125,36 @@ anchors = ['trump',
            'food',
            'drink'
            ]
+do_vect = True
 
-print('Vectorizing tweets...', end='')
-vect_fit = vectorizer.fit(all_tweets['text'])
-tfidf = vectorizer.transform(all_tweets['text'])
-vocab = vect_fit.get_feature_names()
-print('Done')
+if do_vect:
+    print('Vectorizing tweets...', end='')
+    vect_fit = vectorizer.fit(all_tweets['text'])
+    tfidf = vectorizer.transform(all_tweets['text'])
+    vocab = vect_fit.get_feature_names()
+    print('Done')
+    joblib.dump(vect_fit, './resources/vect_fit_dump.joblib')
+    joblib.dump(tfidf, './resources/tfidf_dump.joblib')
+    joblib.dump(vocab, './resources/vocab_dump.joblib')
+else:
+    vect_fit = joblib.load('./resources/vect_fit_dump.joblib')
+    tfidf = joblib.load('./resources/tfidf_dump.joblib')
+    vocab = joblib.load('./resources/vocab_dump.joblib')
 
+
+<<<<<<< HEAD
 print('Fitting CorEx model...', end='')
 # anchors = []
+=======
+print('Fitting CorEx model...')
+>>>>>>> 31e83c099752a74f39fef52c8cd2d3be13970fcb
 model = model.fit(
     tfidf,
     # anchors=anchors,
     # anchor_strength=3,
     words=vocab)
 print('Done')
+joblib.dump(model, './resources/model_dump.joblib')
 
 vt.vis_rep(model, column_label=vocab,
            prefix='./corex_models/{}-topic-model'.format(num_topics))
@@ -159,13 +176,21 @@ all_df = pd.concat([all_tweets, topic_df], axis=1)
 all_df.to_csv('all_df.csv')
 
 # Train successive layers
+<<<<<<< HEAD
 print('fit 2...')
 tm_layer2 = ct.Corex(n_hidden=10, seed=42)
 tm_layer2.fit(model.labels)
+=======
+print('fit2...')
+tm_layer2 = ct.Corex(n_hidden=10)
+tm_layer2.fit(model.labels)
+joblib.dump(tm_layer2, './resources/tm_layer2_dump.joblib')
+>>>>>>> 31e83c099752a74f39fef52c8cd2d3be13970fcb
 
 vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
 corex_print = 'CorEx params: n_t={}, tc={}'.format(10, tm_layer2.tc)
 
+<<<<<<< HEAD
 print(vect_print + ' ' + corex_print)
 
 vt.vis_hierarchy([model, tm_layer2], column_label=vocab,
@@ -210,3 +235,17 @@ vt.vis_hierarchy([model, tm_layer2, tm_layer3], column_label=vocab,
 #
 # print("Best parameter (CV score=%0.3f):" % grid_search.best_score_)
 # print(grid_search.best_params_)
+=======
+vt.vis_rep(tm_layer2, column_label=vocab,
+           prefix='./corex_models/{}-topic-model'.format(10))
+
+tm_layer3 = ct.Corex(n_hidden=1)
+tm_layer3.fit(tm_layer2.labels)
+joblib.dump(tm_layer3, './resources/tm_layer3_dump.joblib')
+
+vect_print = 'Vect params: min_df={}, max_df={}'.format(num_min_df, num_max_df)
+corex_print = 'CorEx params: n_t={}, tc={}'.format(num_topics, model_tc)
+
+vt.vis_rep(tm_layer3, column_label=vocab,
+           prefix='./corex_models/{}-topic-model'.format(1))
+>>>>>>> 31e83c099752a74f39fef52c8cd2d3be13970fcb
