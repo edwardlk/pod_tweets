@@ -2,6 +2,9 @@
 auth.py
 *.csv
 follower_twts/*
+corex_models/*
+processing_output/*
+tweet_pickles/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
