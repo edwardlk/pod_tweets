@@ -1,0 +1,100 @@
+topic_0:por,para,se,mas,un,como,es,una,con,los
+topic_1:trump,president,impeachment,donald,donald trump,trumps,senate,republican,witnesses,trial
+topic_2:show proof,tweet follows,und,der,will show,random person,du,je,ist,drill following
+topic_3:chance win,win,giveaway,enter,chance,follow,retweet,giving away,this tweet,retweets this
+topic_4:vote,country,election,states,american,against,political,america,united states,government
+topic_5:kobe,bryant,kobe bryant,basketball,nba,gianna,player,los angeles,angeles,san
+topic_6:bernie,sanders,warren,biden,democratic,buttigieg,bernie sanders,pete,candidate,pelosi
+topic_7:white,war,police,violence,racist,black,gun,iran,killed,military
+topic_8:like,just,shit,feel,really,looks like,looks,feel like,fucking,like this
+topic_9:book,learn,some,story,reading,writing,wrote,research,books,learning
+topic_10:they,that they,they were,when they,they dont,what they,them,because they,they will,were
+topic_11:dont,know,dont know,else,know what,anyone,someone,even,know that,didnt
+topic_12:check,join,today,link,available,friday,tickets,announce,tomorrow,event
+topic_13:data,students,service,information,community,company,customer,app,issue,business
+topic_14:people,many people,people that,some people,people dont,that people,people with,american people,people like,people will
+topic_15:state,iowa,york,new york,caucus,kansas,iowa caucus,state union,kansas city,union
+topic_16:love,happy,birthday,luck,happy birthday,love this,good luck,thank,amazing,weekend
+topic_17:game,wait,cant wait,show,season,play,song,movie,playing,halftime
+topic_18:super bowl,bowl,super,chiefs,mahomes,andy reid,wrestling,patrick mahomes,reid,bowl halftime
+topic_19:years,ago,years ago,forget,years old,dont forget,this years,ago today,never forget,last years
+topic_20:week,this week,new,forward,looking forward,looking,last week,film,next week,next
+topic_21:coyote,badger,peninsula open,space trust,coyotes badgers,hunt together,known hunt,crossing pass,culvert wildlife,busy california
+topic_22:climate,public,article,climate change,system,student,education,companies,this article,housing
+topic_23:about,about this,talk about,talk,thinking about,what about,about that,about what,know about,things
+topic_24:than,more than,better than,less than,rather than,less,rather,than ever,worse than,than that
+topic_25:year,this year,last year,year old,new year,high school,school,happy new,next year,high
+topic_26:great,morning,episode,podcast,this morning,thanks,listen,excited,listening,good morning
+topic_27:will,that will,will never,this will,will always,will make,what will,when will,will ever,will come
+topic_28:health,mental,mental health,health care,donate,petition,sign petition,will donate,spread word,spread
+topic_29:because,doesnt,does,isnt,happened,point,only,mean,seems,what happened
+topic_30:stop,saying,wrong,nothing,hate,agree,agree with,stupid,wrong with,shut
+topic_31:time,last,last night,night,first time,this time,long time,first,long,that time
+topic_32:after,over,down,into,before,went,until,left,days,took
+topic_33:what,would,this what,that would,would like,makes,happens,what would,what this,what happens
+topic_34:eat,food,eating,water,coffee,cream,drink,cheese,chicken,peanut
+topic_35:coronavirus,china,virus,outbreak,wuhan,chinese,wall street,fossil,flu,hong
+topic_36:more,more about,much more,learn more,even more,need more,more like,with more,more this,many more
+topic_37:going,cant,said,right,believe,still,again,same,happen,cant believe
+topic_38:make,every,something,sure,made,keep,every time,everyone,make sure,make this
+topic_39:help,please,here,share,please help,month,need help,please retweet,sharing,please share
+topic_40:australia,court,supreme,supreme court,border,fires,fire,reports,chief,emergency
+topic_41:been,much,hear,since,would been,never been,hear this,havent,that been,always been
+topic_42:life,whole,heart,real,face,sometimes,thinking,mom,sleep,baby
+topic_43:work,very,find,through,place,found,hard,work with,hard work,very much
+topic_44:take,done,well done,will take,take care,take look,take this,done with,dont take,take time
+topic_45:women,woman,men,children,human,says,act,parents,child,sex
+topic_46:from,from this,this from,come from,back from,from that,coming from,from being,comes from,from new
+topic_47:give,away,away from,give away,will give,dont give,away with,going give,give them,passed away
+topic_48:million,dollars,million people,over million,billion,million views,hundreds,hundreds thousands,thousands,million more
+topic_49:team,proud,congratulations,north,west,career,east,opportunity,congrats,field
+topic_50:could,times,that could,many times,wish could,they could,this could,what could,wish,could just
+topic_51:money,pay,change,afford,taxes,paid,attention,likely,paying,cant afford
+topic_52:most,most important,this most,most people,that most,most recent,with most,most powerful,most likely,most beautiful
+topic_53:global,dr,security,leaders,communities,luther,letter,crisis,powerful,council
+topic_54:god,person,rest,bless,god bless,peace,rest peace,jesus,lord,christ
+topic_55:should,care,exactly,means,care about,dont care,that should,exactly what,that means,this should
+topic_56:sexually assaulted,assaulted,sexually,been sexually,opponent republican,upset stepped,stepped retweet,build campaign,defeat november,never myself
+topic_57:free,heres,weve,open,email,sent,order,contact,full,flight
+topic_58:video,this video,new video,video game,music video,video games,video from,video that,full video,video this
+topic_59:read,working,read this,questions,read more,working with,dealing,dealing with,been working,read about
+topic_60:understand,fact,matter,fact that,reason,dont understand,arent,matter what,doesnt matter,understand that
+topic_61:good,pretty,cool,stuff,this good,really good,that good,picture,this picture,pretty good
+topic_62:other,other than,other people,with other,than other,every other,other side,from other,many other,that other
+topic_63:support,interview,program,city,interview with,conference,former,county,meeting,leadership
+topic_64:talking,talking about,better,kids,entire,feel better,even better,with kids,were talking,what talking
+topic_65:news,fox news,good news,breaking news,fake news,fox,great news,news that,bad news,this news
+topic_66:power,clear,economic,african,wealth,poverty,racial,movement,boris,income
+topic_67:remember,being,single,every single,remember when,remember that,leave,yourself,alone,remember this
+topic_68:social,media,social media,social security,associated,associated with,social justice,mainstream media,with disabilities,mainstream
+topic_69:world,across,conversation,around world,this world,consider,message,conversation with,across country,world war
+topic_70:reminder,reminder that,control,just reminder,friendly reminder,birth control,gentle reminder,friendly,control over,gentle
+topic_71:want,doing,then,heard,just want,mind,doing this,figure,want this,didnt want
+topic_72:family,moment,this moment,with family,prayers,friends family,loss,family friends,condolences,generation
+topic_73:uk,brexit,prime,minister,prime minister,british,labour,ireland,tory,irish
+topic_74:each,past,each other,along,along with,three,past years,over past,this past,with each
+topic_75:history,ones,words,young,families,lives,black history,strong,loved ones,history month
+topic_76:question,thread,problem,this thread,answer,sort,problem with,problems,example,reality
+topic_77:trans,concerned,conspiracy,concerned about,trans people,theories,conspiracy theories,queer,gender,bezos
+topic_78:might,idea,sense,makes sense,idea that,idea what,that might,make sense,this might,good idea
+topic_79:important,others,step,speak,become,more important,this important,whether,difficult,process
+topic_80:twitter,youd like,twitter account,this twitter,youd,instagram,joined twitter,when joined,comment,joined
+topic_81:when,also,comes,photo,posted,when comes,that when,just posted,this photo,when this
+topic_82:century,role,language,indigenous,native,impact,critical,created,nearly,schools
+topic_83:difference,between,happening,used,small,difference between,energy,often,aware,make difference
+topic_84:months,both,months ago,both sides,sides,they both,that both,last months,them both,six months
+topic_85:needs,true,word,this true,needs hear,matters,needs more,that matters,that needs,world needs
+topic_86:part,such,talks,behind,thoughts,part this,talks about,future,takes,best part
+topic_87:able,account,expect,being able,this account,been able,longer,will able,were able,should able
+topic_88:worth,level,next level,just earned,bill murray,murray,this worth,earned,this level,net worth
+topic_89:told,spent,imagine,without,told that,just told,died,imagine that,wife,been told
+topic_90:piece,living,piece shit,this piece,known,trust,living with,living room,earth,best life
+topic_91:hit,second,during,grade,4th,2nd,during this,3rd,round,third
+topic_92:home,goes,explain,back home,home with,gives,come home,date,hours,that goes
+topic_93:running,running against,running president,democrat running,running into,running around,running this,time running,running away,running congress
+topic_94:bringing,touch,lunch,counter,touch with,brain,fresh,however,bringing back,multiple
+topic_95:fast,box,move,boxes,furious,drive,move forward,ink,fast food,fast furious
+topic_96:begin,direction,cover,push,further,begin with,brighter,hire,expected,cover this
+topic_97:close,showing,even close,midwest,showing that,close eyes,portrayed,this close,close friends,close enough
+topic_98:mention,certainly,considering,shows that,recall,admire,mention that,minor,unbiased,speculation
+topic_99:personally,chose,understands,interact,interact with,ditto
