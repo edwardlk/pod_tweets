@@ -11,3 +11,5 @@ userbase similarities that represent hidden growth avenues.
 
 Check out the [streamlit](www.streamlit.io)-powered recommendation and
 data exploration web application at http://bit.ly/podbooster.
+
+Learn more about it here: https://youtu.be/Of6uydQSZIc
